@@ -10,7 +10,7 @@ class Program
         char letter;
         string sign = "";
 
-        // 1️⃣ Determine letter grade
+        // Determine letter grade
         if (grade >= 90)
             letter = 'A';
         else if (grade >= 80)
@@ -22,19 +22,17 @@ class Program
         else
             letter = 'F';
 
-        
-        int lastDigit = grade % 10;
+        // Only B, C, and D can have + or -
+        if (letter == 'B' || letter == 'C' || letter == 'D')
+        {
+            int lastDigit = grade % 10;
 
-        if (lastDigit >= 7)
-            sign = "+";
-        else if (lastDigit < 3)
-            sign = "-";
+            if (lastDigit >= 7)
+                sign = "+";
+            else if (lastDigit < 3)
+                sign = "-";
+        }
 
-        // handling edge cases cus im cool
-        if (letter == 'A' && sign == "+")
-            sign = "";          // No A+
-        if (letter == 'F')
-            sign = "";          // No F+ or F-
         Console.WriteLine($"You received a {letter}{sign}.");
     }
 }
