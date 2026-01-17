@@ -21,7 +21,16 @@ class Journal
 
     public void SaveToFile(string filename)
     {
-        using (StreamWriter writer = new StreamWriter(filename))
+        // Build the saves directory path
+        string savesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "saves");
+
+        // Ensure the directory exists
+        Directory.CreateDirectory(savesDirectory);
+
+        // Build the full file path
+        string filePath = Path.Combine(savesDirectory, filename);
+
+        using (StreamWriter writer = new StreamWriter(filePath))
         {
             foreach (Entry entry in _entries)
             {
@@ -34,7 +43,17 @@ class Journal
     {
         _entries.Clear();
 
-        string[] lines = File.ReadAllLines(filename);
+        // Build the saves directory path
+        string savesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "saves");
+        string filePath = Path.Combine(savesDirectory, filename);
+
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine("File not found.");
+            return;
+        }
+
+        string[] lines = File.ReadAllLines(filePath);
         foreach (string line in lines)
         {
             string[] parts = line.Split("|");
@@ -43,3 +62,4 @@ class Journal
         }
     }
 }
+
